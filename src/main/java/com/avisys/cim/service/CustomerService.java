@@ -66,18 +66,33 @@ public class CustomerService {
 
     public CustomerModel addCustomer(CustomerModel customerModel) {
         if (customerModel != null) {
-//            List<Customer> listByMobileNumber = customerRepository.getCustomersByMobileNumber(customerModel.getMobileNumber());
-            MobileNumber mobileNumbersListWithCustomerDetails = mobileNumberRepository.getMobileNumberDetails(customerModel.getMobileNumber());
-            List<MobileNumber> mobileNumberListToAdd = new ArrayList<>();
-            if (mobileNumbersListWithCustomerDetails != null) {
+            List<String> alreadyExistingMobileNumberList = new ArrayList<>();
+            mobileNumberRepository.findAll().forEach(mn -> alreadyExistingMobileNumberList.add(mn.getMobileNumber()));
+
+            List<String> commonMobileNumberList = new ArrayList<>();
+            alreadyExistingMobileNumberList.forEach(alreadyExistMobileNumber -> {
+                customerModel.getMobileNumbers().forEach(mobileNumberToBeAdd -> {
+                    if (alreadyExistMobileNumber.equals(mobileNumberToBeAdd)) {
+                        commonMobileNumberList.add(mobileNumberToBeAdd);
+                    }
+                });
+            });
+
+            if (commonMobileNumberList.isEmpty()) {
+                List<MobileNumber> mobileNumberListToAdd = new ArrayList<>();
                 Customer customer = new Customer();
                 customer.setFirstName(customerModel.getFirstName());
                 customer.setLastName(customerModel.getLastName());
-                MobileNumber mobileNumber = new MobileNumber();
-                mobileNumber.setMobileNumber(customerModel.getMobileNumber());
-                mobileNumberListToAdd.add(mobileNumber);
-                customer.setMobileNumberList(mobileNumberListToAdd);
-                customer = customerRepository.save(customer);
+                customerModel.getMobileNumbers().forEach(mobNo -> {
+                    MobileNumber mobileNumber = new MobileNumber();
+                    mobileNumber.setMobileNumber(mobNo);
+                    mobileNumberListToAdd.add(mobileNumber);
+                });
+                Customer savedCustomer = customerRepository.save(customer);
+                mobileNumberListToAdd.forEach(mobileNumber -> {
+                    mobileNumber.setCustomer(savedCustomer);
+                });
+                mobileNumberRepository.saveAll(mobileNumberListToAdd);
                 return customerModel;
             }
         }

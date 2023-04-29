@@ -1,6 +1,5 @@
 package com.avisys.cim.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -19,7 +18,6 @@ public class Customer {
 	private String lastName;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="customer")
-	@JsonIgnore
 	private List<MobileNumber> mobileNumberList;
 
 	public Long getId() {
