@@ -1,16 +1,18 @@
 package com.avisys.cim.response;
 
+import java.util.List;
+
 public class CustomerResponse {
 	private Long id;
 	private String firstName;
 	private String lastName;
-	private String mobileNumber;
+	private List<String> mobileNumbers;
 
-	public CustomerResponse(Long id, String firstName, String lastName, String mobileNumber) {
+	public CustomerResponse(Long id, String firstName, String lastName, List<String> mobileNumbers) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.mobileNumber = mobileNumber;
+		this.mobileNumbers = mobileNumbers;
 	}
 
 	public Long getId() {
@@ -37,12 +39,11 @@ public class CustomerResponse {
 		this.lastName = lastName;
 	}
 
-	public String getMobileNumber() {
-		  return mobileNumber;
+	public List<String> getMobileNumbers() {
+		return mobileNumbers;
 	}
 
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
+	public void setMobileNumbers(List<String> mobileNumbers) {
+		this.mobileNumbers = mobileNumbers;
 	}
-
 }

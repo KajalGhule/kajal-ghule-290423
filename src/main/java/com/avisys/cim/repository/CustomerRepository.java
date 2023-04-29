@@ -18,7 +18,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("SELECT c FROM Customer c WHERE LOWER(c.lastName) LIKE LOWER(CONCAT('%', :lastName, '%'))")
     List<Customer> getCustomersByLastName(String lastName);
 
-    @Query("SELECT c FROM Customer c WHERE c.mobileNumber = :mobileNumber")
-    List<Customer> getCustomersByMobileNumber(String mobileNumber);
 
 }

@@ -1,11 +1,8 @@
 package com.avisys.cim.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "CUSTOMER")
@@ -21,8 +18,9 @@ public class Customer {
 	@Column(name = "LAST_NAME", nullable = false)
 	private String lastName;
 
-	@Column(name = "MOBILE_NUMBER", unique = true, nullable = false)
-	private String mobileNumber;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="customer")
+	@JsonIgnore
+	private List<MobileNumber> mobileNumberList;
 
 	public Long getId() {
 		return id;
@@ -48,12 +46,11 @@ public class Customer {
 		this.lastName = lastName;
 	}
 
-	public String getMobileNumber() {
-		return mobileNumber;
+	public List<MobileNumber> getMobileNumberList() {
+		return mobileNumberList;
 	}
 
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
+	public void setMobileNumberList(List<MobileNumber> mobileNumberList) {
+		this.mobileNumberList = mobileNumberList;
 	}
-
 }
