@@ -1,12 +1,13 @@
 package com.avisys.cim.controller;
 
+import com.avisys.cim.model.CustomerModel;
 import com.avisys.cim.response.CustomerResponse;
 import com.avisys.cim.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -35,4 +36,14 @@ public class CustomerController {
         return ResponseEntity.ok(customerFilterList);
     }
 
+    // 2. Ability to create a new customer over REST API.
+    // It should add new customer to DB, It only adds if the mobile number is not already present in DB.
+    // As per requirement, returning 201 when customer created else 500 If already present
+    @PostMapping("/addCustomers")
+    public ResponseEntity<String> addNewCustomer(@RequestBody CustomerModel customerModel){
+        CustomerModel response = customerServices.addCustomer(customerModel);
+        if (response == null)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unable to create Customer. Mobile number already present.");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Customer created");
+    }
 }

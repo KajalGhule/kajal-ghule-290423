@@ -1,6 +1,7 @@
 package com.avisys.cim.service;
 
 import com.avisys.cim.entity.Customer;
+import com.avisys.cim.model.CustomerModel;
 import com.avisys.cim.repository.CustomerRepository;
 import com.avisys.cim.response.CustomerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,19 @@ public class CustomerService {
         return customerResponseList;
     }
 
+    public CustomerModel addCustomer(CustomerModel customerModel) {
+        if (customerModel != null) {
+            List<Customer> listByMobileNumber = customerRepository.getCustomersByMobileNumber(customerModel.getMobileNumber());
+            if (listByMobileNumber.isEmpty()) {
+                Customer customer = new Customer();
+                customer.setFirstName(customerModel.getFirstName());
+                customer.setLastName(customerModel.getLastName());
+                customer.setMobileNumber(customerModel.getMobileNumber());
+                customer = customerRepository.save(customer);
+                return customerModel;
+            }
+        }
+        return null;
+    }
 
 }

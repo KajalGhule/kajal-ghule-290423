@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "b0dc6c89-6145-45b5-833f-de69a0781643",
+		"name": "Avisys Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15217798"
+	},
+	"item": [
+		{
+			"name": "Get All Customers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customers By First Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/filteredCustomers?firstName=aTHY",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"filteredCustomers"
+					],
+					"query": [
+						{
+							"key": "firstName",
+							"value": "aTHY"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customers By Last Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/filteredCustomers?lastName=SierrA",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"filteredCustomers"
+					],
+					"query": [
+						{
+							"key": "lastName",
+							"value": "SierrA"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customers By Mobile Number ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/filteredCustomers?mobileNumber=9111111114",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"filteredCustomers"
+					],
+					"query": [
+						{
+							"key": "mobileNumber",
+							"value": "9111111114"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Customer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\":\"firstName\",\n    \"lastName\":\"lastName\",\n    \"mobileNumber\":\"9123450000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/addCustomers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"addCustomers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

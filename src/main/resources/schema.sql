@@ -5,3 +5,5 @@ CREATE TABLE customer (
 	mobile_number varchar(15) not null
 );
 ALTER TABLE customer ADD CONSTRAINT customer_uk1 UNIQUE (mobile_number);
+
+CREATE SEQUENCE CUSTOMER_SEQ START WITH 1 INCREMENT BY 1;
