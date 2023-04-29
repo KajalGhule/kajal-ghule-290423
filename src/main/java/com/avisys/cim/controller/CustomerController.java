@@ -46,4 +46,14 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unable to create Customer. Mobile number already present.");
         return ResponseEntity.status(HttpStatus.CREATED).body("Customer created");
     }
+
+    // 5. Ability to delete over REST API
+    // It should delete a customer by using mobile number.
+    @DeleteMapping("/customers/{mobileNumber}")
+    public ResponseEntity<String> deleteCustomerByMobileNumber(@PathVariable String mobileNumber) {
+        if(customerServices.deleteCustomerByMobileNumber(mobileNumber)){
+            return ResponseEntity.ok().body("Deleted");
+        }
+        return ResponseEntity.ok().body("number not exist");
+    }
 }

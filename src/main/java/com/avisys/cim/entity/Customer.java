@@ -17,7 +17,7 @@ public class Customer {
 	@Column(name = "LAST_NAME", nullable = false)
 	private String lastName;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="customer")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="customer", cascade = CascadeType.REMOVE)
 	private List<MobileNumber> mobileNumberList;
 
 	public Long getId() {

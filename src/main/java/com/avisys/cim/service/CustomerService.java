@@ -99,4 +99,12 @@ public class CustomerService {
         return null;
     }
 
+    public boolean deleteCustomerByMobileNumber(String mobileNumber) {
+        MobileNumber mobileNumberEntity = mobileNumberRepository.getMobileNumberDetails(mobileNumber);
+        if (mobileNumberEntity != null) {
+            customerRepository.delete(mobileNumberEntity.getCustomer());
+            return true;
+        }
+        return false;
+    }
 }
