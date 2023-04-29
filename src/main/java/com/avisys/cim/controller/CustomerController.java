@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -55,5 +54,27 @@ public class CustomerController {
             return ResponseEntity.ok().body("Deleted");
         }
         return ResponseEntity.ok().body("number not exist");
+    }
+
+    // 6. Ability to update mobile number for an existing customer.
+    // It should update customer by adding mobile number.
+    @PatchMapping("/customers/{customerId}/{mobileNumber}")
+    public ResponseEntity<CustomerResponse> addMobileNumberToCustomer(@PathVariable Long customerId,
+                                                                      @PathVariable String mobileNumber) {
+           CustomerResponse response = customerServices.addMobileNumberToCustomer(customerId, mobileNumber);
+          if (response != null) {
+              return ResponseEntity.ok().body(response);
+          }
+        return ResponseEntity.noContent().build();
+    }
+
+    // It should delete given mobile number for an existing customer.
+    @DeleteMapping("/customers/{customerId}/{mobileNumber}")
+    public ResponseEntity<String> deleteCustomersMobileNumber(@PathVariable Long customerId,
+                                                              @PathVariable String mobileNumber) {
+        if (customerServices.deleteCustomersMobileNumber(customerId, mobileNumber)) {
+            return ResponseEntity.ok().body("Deleted mobile number for customer.");
+        }
+        return ResponseEntity.ok().body("Mobile number not exist for customer.");
     }
 }

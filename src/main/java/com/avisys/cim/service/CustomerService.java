@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -23,9 +24,11 @@ public class CustomerService {
     public List<CustomerResponse> getCustomers() {
         List<Customer> customerList = customerRepository.getAllCustomers();
         List<CustomerResponse> customerResponseList = new ArrayList<>();
-        List<String> mobileNumberList = new ArrayList<>();
         customerList.forEach(customer -> {
-            customer.getMobileNumberList().forEach(mobileNumber -> mobileNumberList.add(mobileNumber.getMobileNumber()));
+            List<String> mobileNumberList = new ArrayList<>();
+            customer.getMobileNumberList().forEach(mobileNumber -> {
+                mobileNumberList.add(mobileNumber.getMobileNumber());
+            });
             customerResponseList.add(new CustomerResponse(customer.getId(), customer.getFirstName(),
                     customer.getLastName(), mobileNumberList));
         });
@@ -103,6 +106,43 @@ public class CustomerService {
         MobileNumber mobileNumberEntity = mobileNumberRepository.getMobileNumberDetails(mobileNumber);
         if (mobileNumberEntity != null) {
             customerRepository.delete(mobileNumberEntity.getCustomer());
+            return true;
+        }
+        return false;
+    }
+
+    public CustomerResponse addMobileNumberToCustomer(Long customerId, String mobileNumber) {
+        if (customerId != null && mobileNumber != null) {
+            Optional<Customer> customerOptional = customerRepository.findById(customerId);
+            Customer customerById;
+            if (customerOptional.isPresent()) {
+                customerById = customerOptional.get();
+
+                MobileNumber existingMobileNumber = mobileNumberRepository.getMobileNumberDetails(mobileNumber);
+                if (existingMobileNumber == null) {
+                    MobileNumber mobileNumberToBeSave = new MobileNumber();
+                    mobileNumberToBeSave.setMobileNumber(mobileNumber);
+                    mobileNumberToBeSave.setCustomer(customerById);
+                    mobileNumberRepository.save(mobileNumberToBeSave);
+
+                    List<String> updatedMobileNumberList = new ArrayList<>();
+                    customerById.getMobileNumberList().forEach(item -> {
+                        updatedMobileNumberList.add(item.getMobileNumber());
+                    });
+                    updatedMobileNumberList.add(mobileNumber);
+
+                    return new CustomerResponse(customerById.getId(), customerById.getFirstName(),
+                            customerById.getLastName(), updatedMobileNumberList);
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean deleteCustomersMobileNumber(Long customerId, String mobileNumber) {
+        MobileNumber existingMobileNumber = mobileNumberRepository.getMobileNumberDetails(mobileNumber);
+        if (existingMobileNumber != null && existingMobileNumber.getCustomer().getId().equals(customerId)) {
+            mobileNumberRepository.delete(existingMobileNumber);
             return true;
         }
         return false;

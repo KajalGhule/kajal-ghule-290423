@@ -107,7 +107,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstName\":\"firstName\",\n    \"lastName\":\"lastName\",\n    \"mobileNumber\":\"9123450000\"\n}",
+					"raw": "{\n    \"firstName\":\"firstName\",\n    \"lastName\":\"lastName\",\n    \"mobileNumbers\":[\"9123450000\", \"9123450001\"]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -123,6 +123,77 @@
 					"port": "8080",
 					"path": [
 						"addCustomers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete customer by mobilenumber",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/customers/9111111111",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customers",
+						"9111111111"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Mobile Number To Customer By Customer Id and Mobile Number",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/customers/4/9111111118",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customers",
+						"4",
+						"9111111118"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete mobile number for customer by mobile number",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/customers/4/9111111115",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customers",
+						"4",
+						"9111111115"
 					]
 				}
 			},
